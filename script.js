@@ -92,38 +92,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Contact Form Handling
 const contactForm = document.getElementById('contactForm');
+const statusMessage = document.getElementById('statusMessage');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        status.textContent = "Sending...";
+        // Get form elements
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const messageInput = document.getElementById('message');
+
+        // Show sending status
+        if (statusMessage) {
+            statusMessage.textContent = "Sending...";
+            statusMessage.className = "status-message status-info";
+        }
 
         const body = {
-            name: form.name.value,
-            email: form.email.value,
-            message: form.message.value
+            name: nameInput.value,
+            email: emailInput.value,
+            message: messageInput.value
         };
 
         try {
             const resp = await fetch("https://api.w3b.works/contact", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(body)
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(body)
             });
 
             const data = await resp.json();
 
             if (data.ok) {
-            status.textContent = "Sent successfully ✓";
-            form.reset();
+                if (statusMessage) {
+                    statusMessage.textContent = "Message sent successfully! ✓";
+                    statusMessage.className = "status-message status-success";
+                }
+                contactForm.reset();
+                
+                // Clear success message after 5 seconds
+                setTimeout(() => {
+                    if (statusMessage) {
+                        statusMessage.textContent = "";
+                        statusMessage.className = "status-message";
+                    }
+                }, 5000);
             } else {
-            status.textContent = "Error: " + (data.error || "Failed");
+                if (statusMessage) {
+                    statusMessage.textContent = "Error: " + (data.error || "Failed to send message");
+                    statusMessage.className = "status-message status-error";
+                }
             }
         } catch (err) {
-            status.textContent = "Network error";
+            if (statusMessage) {
+                statusMessage.textContent = "Network error: Unable to send message. Please try again later.";
+                statusMessage.className = "status-message status-error";
+            }
             console.error(err);
         }
     });
