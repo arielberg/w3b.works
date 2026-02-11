@@ -116,7 +116,7 @@ if (contactForm) {
         };
 
         try {
-            const resp = await fetch("https://api.w3b.works/contact", {
+            const resp = await fetch("https://me.w3b.works/mail", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
