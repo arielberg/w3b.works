@@ -67,6 +67,13 @@ body {
     color: var(--text-dark);
 }
 
+.logo-img {
+    height: 75px;
+    width: auto;
+    display: block;
+    max-width: 250px;
+}
+
 .nav-menu {
     display: flex;
     list-style: none;
