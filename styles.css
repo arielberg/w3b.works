@@ -559,9 +559,9 @@ section {
 }
 
 .currency {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: var(--text-dark);
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-light);
 }
 
 .amount {
